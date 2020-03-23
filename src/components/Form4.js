@@ -13,11 +13,12 @@ class Form4 extends React.Component {
         employer_name: "",
         employer_phone_number: "",
         job_title: "",
-        job_duration_years: "",
-        job_duration_months: "",
-        monthly_income: "",
+        job_duration_years: "0",
+        job_duration_months: "0",
+        monthly_income: "$600",
         redirect: null,
-        userId: this.props.location.state.currentUser.id
+        userId: this.props.location.state.currentUser.id,
+        currentUser: null
     }
 
     handleChange = (event) => {      
@@ -52,7 +53,10 @@ class Form4 extends React.Component {
     render() {
         if(this.state.redirect) {
             return <Redirect to={{
-                pathname: this.state.redirect,                
+                pathname: this.state.redirect,
+                state: {
+                    currentUser: this.state.currentUser
+                }                
             }}/>
         }
         return (
