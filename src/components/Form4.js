@@ -30,10 +30,23 @@ class Form4 extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        // after submit, redirects to flight page
-        this.setState({
-            redirect: "/congratulations",
-        })  
+        const user = this.state
+        axios.patch(`http://localhost:3001/users/${this.state.userId}`, { user }, {withCredentials: true})
+        .then(response => {
+            console.log(response)
+            if (response.data) {
+            
+                this.setState({
+                    redirect: "/congratulations",
+                    currentUser: response.data.user
+                })
+        } else {
+            this.setState({
+                errors: response.data.errors
+            })
+            }
+        })
+        .catch(error => console.log('api errors:', error))
     }
 
     render() {
