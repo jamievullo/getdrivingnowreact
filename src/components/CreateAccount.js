@@ -3,7 +3,7 @@ import { BrowserRouter as Link, Redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-// import axios from 'axios'
+import axios from 'axios'
 
 class CreateAccount extends React.Component {
 
@@ -12,7 +12,8 @@ class CreateAccount extends React.Component {
         password: '',
         password_confirmation: '',
         errors: '',
-        redirect: null
+        redirect: null,
+        currentUser: null
     }
 
     handleChange = (event) => {
@@ -20,49 +21,55 @@ class CreateAccount extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
 
-//    handleSubmit = (event) => {
-//       event.preventDefault();
-//       // console.log(event);
-//       const {email, password, password_confirmation} = this.state
-//       let user = {
-//       email: email,
-//       password: password,
-//       password_confirmation: password_confirmation
-//       }
-//    axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
-//       .then(response => {
-//          if (response.data.status === 'created') {
-//          this.props.handleLogin(response.data)
-//          //sets response.data.user to userDate variable
-//          const userData = response.data.user
-//          //calls dispatch method 'add new user' and passes user data payload
-//          this.props.dispatch({ type: 'ADD_NEW_USER', payload: userData })
-//          this.redirect()
-//          } else {
-//          this.setState({
-//             errors: response.data.errors
-//             })
-//          }
-//       })
-//       .catch(error => console.log('api errors:', error))
-//    };
+    handleSubmit = (event) => {
+        event.preventDefault();
+        // console.log(event);
+        const {email, password, password_confirmation} = this.state
+        let user = {
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation
+        }
+        axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
+        .then(response => {
+            if (response.data.status === 'created') {
+                console.log(response)
+                this.props.handleLogin(response.data)
+                
+                this.setState({
+                    redirect: "/form1",
+                    currentUser: response.data.user
+                })
+            //sets response.data.user to userDate variable
+            //  const userData = response.data.user
+            //calls dispatch method 'add new user' and passes user data payload
+            //  this.props.dispatch({ type: 'ADD_NEW_USER', payload: userData })
+            // this.redirect()
+            } else {
+            this.setState({
+                errors: response.data.errors
+                })
+            }
+        })
+        .catch(error => console.log('api errors:', error))
+    };
 //    redirect = () => {
 //       this.props.history.push('/')
 //    }
 
-      // this.setState({
-      //    redirect: "/"
-      // })
+    //   this.setState({
+    //      redirect: "/"
+    //   })
 
     render() {
         if(this.state.redirect) {
             return <Redirect to={{
                 pathname: this.state.redirect,
                 state: {
-                CreateAccountInfo: this.state
+                    currentUser: this.state.currentUser
                 }
             }}/>
         }
@@ -104,6 +111,7 @@ class CreateAccount extends React.Component {
             </div>
         )
     }
+    
 }
 
 export default CreateAccount;

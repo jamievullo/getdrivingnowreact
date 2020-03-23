@@ -37,14 +37,18 @@ class GDNNavbar extends React.Component {
       //taking in login data recieved from server and setting state
     handleLogin = (data) => {
      // debugger
-        console.log(data)
+        // console.log(data.data.user)
         if (data.user) {
-            const user = data.user
-            this.dataOrigin(user)
-            } else if (data.data.user) {
-            const user = data.data.user
-            this.dataOrigin(user)
-        }
+            // const user = data.user
+            this.setState({
+                isLoggedIn: true,
+                user:  data.user
+            })
+            // this.dataOrigin(user)
+        //     } else if (data.data.user) {
+        //     const user = data.data.user
+        //     // this.dataOrigin(user)
+        // }
         // this.props.dispatch({ type: 'LOGIN_USER', payload: data.user })
         // this.setState({
         //    isLoggedIn: true,
@@ -56,17 +60,17 @@ class GDNNavbar extends React.Component {
      //also pass into conditional to check if the origin of the data is from the 
      //server(to check for login from session) or from user input.
 
-    dataOrigin = (user) => {
-        this.props.dispatch({ type: 'LOGIN_USER', payload: user})
-        this.setState({
-            isLoggedIn: true,
-            user: this.props.user
-        })
+    // dataOrigin = (user) => {
+    //     // this.props.dispatch({ type: 'LOGIN_USER', payload: user})
+    //     this.setState({
+    //         isLoggedIn: true,
+    //         user: this.props.user
+    //     })
     }
 
       //on logout clears user state obj and toggles isLoggedIn obj to false
     handleLogout = () => {
-        this.props.dispatch({ type: 'LOGOUT_USER', payload: ''})
+        // this.props.dispatch({ type: 'LOGOUT_USER', payload: ''})
             this.setState({
             isLoggedIn: false,
             user: {}
@@ -79,6 +83,7 @@ class GDNNavbar extends React.Component {
         // This allows our Rails server to set and read the cookie on the front-end’s browser.
         {withCredentials: true})
         .then(response => {
+            console.log(response)
             if (response.data.logged_in) {
                 this.handleLogin(response)
             } else {
@@ -92,7 +97,7 @@ class GDNNavbar extends React.Component {
         axios.delete('http://localhost:3001/logout', {withCredentials: true})
         .then(response => {
             this.handleLogout()
-            this.props.history.push('/')
+            // this.props.history.push('/')
         })
         .catch(error => console.log(error))
     }

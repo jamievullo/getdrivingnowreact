@@ -5,14 +5,18 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
 
+import axios from 'axios'
+
 class Form3 extends React.Component {
 
     state = {
         phone: "",
         dob: "",
         ssn: "",
-        bankruptcy: "false",
-        redirect: null
+        bankruptcy: "",
+        redirect: null,
+        userId: this.props.location.state.currentUser.id,
+        currentUser: null
     }
 
     handleChange = (event) => {      
@@ -25,16 +29,32 @@ class Form3 extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        // after submit, redirects to flight page
-        this.setState({
-            redirect: "/form4",
-        })  
+        const user = this.state
+        axios.patch(`http://localhost:3001/users/${this.state.userId}`, { user }, {withCredentials: true})
+        .then(response => {
+            console.log(response)
+            if (response.data) {
+            
+                this.setState({
+                    redirect: "/form4",
+                    currentUser: response.data.user
+                })
+        } else {
+            this.setState({
+                errors: response.data.errors
+            })
+            }
+        })
+        .catch(error => console.log('api errors:', error))
     }
 
     render() {
         if(this.state.redirect) {
             return <Redirect to={{
-                pathname: this.state.redirect,                
+                pathname: this.state.redirect,
+                state: {
+                    currentUser: this.state.currentUser
+                }               
             }}/>
         }
         return (
