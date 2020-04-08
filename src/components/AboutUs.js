@@ -27,7 +27,7 @@ class AboutUs extends React.Component {
             <div className='aboutUs'>
                 <Container>
                     <Col>
-                        <h3>Since 1946</h3>                       
+                        <h3><strong>Since 1946</strong></h3>                       
                             <span>
                                 GetDrivingNow.com is owned by Vullo Motors Inc., one of the first car 
                                 dealerships in the state of Pennsylvania. For almost 75 years we have
@@ -41,7 +41,7 @@ class AboutUs extends React.Component {
                                 reliability, future value, gas mileage, and low interest, at a reasonable price.  
                             </span><br/><br/><br/>
                                                 
-                        <h3>We Help you to get the financing for the vehicle you need</h3>
+                        <h3><strong>We Help you to get the best financing for the vehicle you need!</strong></h3>
                             <span>
                                 GetDrivingNow.com connects you to only trusted car dealers and lenders in 
                                 your area so you can get the financing you need quickly to buy a new or 
@@ -50,7 +50,7 @@ class AboutUs extends React.Component {
                                 We connect you with proven dealerships and lenders. We specialize in first time 
                                 buyers, every credit issue including delinquencies and repossessions, people with 
                                 bankruptcy discharges, self-employed, and fixed-income to get financed for new 
-                                or late model cars. We help real people across the country every day.
+                                or late model cars. We help people every day. Apply Now!!
                             </span>
                             <div style={{height: "15px"}}></div>
                             <Button className="applyNowBtn2 d-inline-block" variant="primary" style={{margingTop: "2em", backgroundColor: "black"}} size="lg" type="submit" onClick={this.handleClick}>
